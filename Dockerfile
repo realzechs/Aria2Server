@@ -1,15 +1,16 @@
-FROM ubuntu:20.04
+FROM alpine:latest
 
 WORKDIR /app
 
-ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Kolkata
 
-RUN apt-get -qq update && apt-get -qq install -y aria2 curl unzip 
+RUN apk add --no-cache bash aria2 curl unzip && \
+curl https://rclone.org/install.sh | bash && \
+rm -rf /var/cache/apk/*
 
-RUN curl https://rclone.org/install.sh | bash
+COPY on_download_complete.sh on_download_complete.sh
+COPY startup.sh startup.sh
 
-COPY . .
 RUN chmod +x on_download_complete.sh startup.sh
 
 CMD ["bash", "startup.sh"]
