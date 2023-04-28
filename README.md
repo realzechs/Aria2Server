@@ -24,18 +24,8 @@ git push heroku main
 
 ## Set environment variables
 
-![Heroku Config Vars](https://files.catbox.moe/3x6bb7.png)
-
-Here `RCLONE_TOKEN` is the token from rclone config, to obtain this follow steps below
-
-```bash
-rclone config show
-```
-
-![What to copy](https://files.catbox.moe/32ujgg.png)
-Copy the `token` value from the output.
-
-The `TEAM_DRIVE_ID` is the id of the team drive where you want to store your downloads. You can copy this from the output of `rclone config show` (above) or Google Drive's team drive page.
+ - `TEAM_DRIVE_ID`: It is the id of the team drive where you want to store your downloads.
+ - `RCLONE_ACCOUNT`: Url to `service-account.json`, it can be a pastebin (raw), github gist (raw) link anything works as long as it leads to a json file.
 
 ## How to use?
 
@@ -60,4 +50,9 @@ res = requests.post(url, data=json.dumps(payload))
 print(res.json())
 ```
 
-Alternatively, if you have Torrentium android app you can add the above url without `/jsonrpc` and add it's functionality to the app.
+### Web-UI & Android Apps
+
+You can also use this with Aria2c Web-ui providers or Android apps. Here are some that I have tested. (Note: use `443` for port)
+
+- https://rickylawson.github.io
+- https://github.com/devgianlu/Aria2App
