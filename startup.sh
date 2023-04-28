@@ -5,12 +5,27 @@ mkdir -p /app/aria2
 mkdir -p ~/.config/rclone
 
 # Creating rclone config file
-echo """[upload]
+if [[ -n "$RCLONE_ACCOUNT" ]]; then
+    echo "[ INFO ] Downloading rclone service account"
+    curl -s -o /app/rclone.conf "$RCLONE_ACCOUNT"
+fi
+
+if [[ -n "$TEAM_DRIVE_ID" ]]; then
+    if [[ -f "/app/rclone.conf" ]]; then
+        echo "[ INFO ] rclone.json found, making rclone config"
+        echo """[upload]
 type = drive
 scope = drive
-token = ${RCLONE_TOKEN}
+service_account_file = /app/rclone.json
 team_drive = ${TEAM_DRIVE_ID}
 """ >>~/.config/rclone/rclone.conf
+    else
+        echo "[ INFO ] RCLONE_ACCOUNT not set, skipping making rclone config"
+    fi
+else
+    echo "[ INFO ] TEAM_DRIVE_ID is not set, skipping making rclone config"
+fi
+
 
 # Starting Rclone RC Server
 rclone rcd --rc-no-auth --drive-server-side-across-configs \
