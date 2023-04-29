@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Create download folder & zplex folder
+# Create downloads folder
 mkdir -p /app/aria2
 mkdir -p ~/.config/rclone
 
 # Creating rclone config file
 if [[ -n "$RCLONE_ACCOUNT" ]]; then
     echo "[ INFO ] Downloading rclone service account"
-    curl -s -o /app/rclone.conf "$RCLONE_ACCOUNT"
+    curl -s -o /app/rclone.json "$RCLONE_ACCOUNT"
 fi
 
 if [[ -n "$TEAM_DRIVE_ID" ]]; then
-    if [[ -f "/app/rclone.conf" ]]; then
+    if [[ -f "/app/rclone.json" ]]; then
         echo "[ INFO ] rclone.json found, making rclone config"
         echo """[upload]
 type = drive
